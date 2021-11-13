@@ -1,37 +1,43 @@
 <template>
-    <div>
-      <div class="login-component">
-        <h1>Login</h1>
-        <form class="form-login">
-          <div class="form-group">
-            <label>Email address</label>
-            <input class="form-control" type="email" v-model="user.email" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" type="password" v-model="user.password"
-            v-on:keyup.enter="login" placeholder="Password">
-          </div>
-          <button type="button" class="btn btn-info" v-on:click="login()">Login</button>
-          <br><br>
-          <div>
-            <router-link to="/forgot-password">Forgot password?</router-link>
-          </div>
-          <hr>
-          <div>
-            <router-link to="/register">New user? Register</router-link>
-          </div>
-        </form>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          :items-per-page="5"
-          class="elevation-1"
-        ></v-data-table>
-      </div>
-    </div>
-  </template>
+  <v-app id="inspire">
+     <v-content>
+        <v-container fluid fill-height>
+           <v-layout align-center justify-center>
+              <v-flex xs12 sm8 md4>
+                 <v-card class="elevation-12">
+                    <v-toolbar dark color="primary">
+                       <v-toolbar-title>Login form</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                       <v-form>
+                          <v-text-field
+                             icon="person"
+                             name="login"
+                             label="Login"
+                             type="text"
+                          ></v-text-field>
+                          <v-text-field
+                             id="password"
+                             icon="lock"
+                             name="password"
+                             label="Password"
+                             type="password"
+                          ></v-text-field>
+                       </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                       <v-spacer></v-spacer>
+                       <v-btn color="primary" to="/" @click="login()">Login</v-btn>
+                    </v-card-actions>
+                 </v-card>
+              </v-flex>
+           </v-layout>
+        </v-container>
+     </v-content>
+  </v-app>
+</template>
 <script type="text/javascript">
+import Api from '../services/Api';
 
 export default {
   name: 'Login',
@@ -45,17 +51,14 @@ export default {
   },
   methods: {
     login() {
-      if (!this.user.email || !this.user.password) {
-        return 0;
-      }
-      return 1;
+      Api.pingpong('Hello');
     },
   },
 };
 </script>
   <style>
   .login-component {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   .form-login {

@@ -8,7 +8,7 @@ import {
 import App from './App.vue';
 import router from './routes';
 import store from './store';
-
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import './registerServiceWorker';
 import '../node_modules/vuetify/dist/vuetify.min.css';
 import './assets/styles/main.scss';

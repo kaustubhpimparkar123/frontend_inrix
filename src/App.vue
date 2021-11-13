@@ -3,7 +3,7 @@
     <!-- <v-app> -->
       <app-header />
         <router-view />
-      <app-footer />
+      <!-- <app-footer /> -->
     <!-- </v-app> -->
   </div>
 </template>
