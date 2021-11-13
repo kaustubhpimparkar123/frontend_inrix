@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     login() {
-      Api.pingpong('Hello');
+      Api.pingpong('ping');
     },
   },
 };

@@ -4,10 +4,10 @@ export const serverUrl = process.env.VUE_APP_SERVER_URL + process.env.VUE_APP_AP
 export const socketUrl = process.env.VUE_APP_SERVER_URL + process.env.VUE_APP_SOCKET_PORT;
 
 export default {
-
   getRequest: async (apiName, data) => {
+    console.log(serverUrl);
     const res = await axios.get(serverUrl + apiName, { params: data });
-    // window.console.log(res.data)
+    window.console.log(res.data);
     return res.data;
   },
 
