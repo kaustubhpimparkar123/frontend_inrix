@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <!-- <v-app> -->
-      <app-header />
+      <!-- <app-header /> -->
         <router-view />
       <!-- <app-footer /> -->
     <!-- </v-app> -->
   </div>
 </template>
 <script>
-import AppHeader from './components/AppHeader.vue';
+// import AppHeader from './components/AppHeader.vue';
 // import Footer from './components/common/Footer.vue';
 
 export default {
@@ -18,7 +18,7 @@ export default {
     titleTemplate: '%s | Vue Express Seed',
   },
   components: {
-    'app-header': AppHeader,
+    // 'app-header': AppHeader,
     // 'app-footer': Footer,
   },
 };

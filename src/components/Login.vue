@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-     <v-content>
+     <v-main>
         <v-container fluid fill-height>
            <v-layout align-center justify-center>
               <v-flex xs12 sm8 md4>
@@ -13,8 +13,9 @@
                           <v-text-field
                              icon="person"
                              name="login"
-                             label="Login"
+                             label="Username"
                              type="text"
+                             v-model="user.email"
                           ></v-text-field>
                           <v-text-field
                              id="password"
@@ -22,6 +23,7 @@
                              name="password"
                              label="Password"
                              type="password"
+                             v-model="user.password"
                           ></v-text-field>
                        </v-form>
                     </v-card-text>
@@ -33,7 +35,7 @@
               </v-flex>
            </v-layout>
         </v-container>
-     </v-content>
+     </v-main>
   </v-app>
 </template>
 <script type="text/javascript">
@@ -51,7 +53,9 @@ export default {
   },
   methods: {
     login() {
+      console.log(this.user);
       Api.pingpong('ping');
+      this.$router.push('/SignUp');
     },
   },
 };
