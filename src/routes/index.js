@@ -30,6 +30,7 @@ export default new Router({
       path: '/DisplayIternary',
       name: 'DisplayIternary',
       component: DisplayIternary,
+      props: true,
     },
     { path: '*', redirect: '/login' },
   ],

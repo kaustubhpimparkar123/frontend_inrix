@@ -57,7 +57,10 @@
 import Api from '../services/Api';
 
 export default {
-  name: 'Planner',
+  name: 'DisplayIternary',
+  props: [
+    'plannerData',
+  ],
   data() {
     return {
       center: { lat: 45.508, lng: -73.587 },
@@ -102,7 +105,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const response = await Api.pingpong('Hello');
+      const response = await Api.planner(this.plannerData);
       // console.log(response.result.trip.wayPoints[0].geometry.coordinates[0][0]);
       for (let i = 0; i < response.result.trip.wayPoints.length; i += 1) {
         this.markers.push({

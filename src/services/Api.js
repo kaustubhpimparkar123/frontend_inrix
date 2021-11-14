@@ -15,4 +15,9 @@ export default {
     const reponse = await networkManager.getRequest(ApiNames.planner, data);
     return reponse;
   },
+  iternary: async (data) => {
+    console.log(data);
+    const reponse = await networkManager.getRequest(ApiNames.iternary, data);
+    return reponse;
+  },
 };

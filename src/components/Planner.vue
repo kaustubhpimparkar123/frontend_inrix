@@ -39,7 +39,6 @@
 </div>
 </template>
 <script type="text/javascript">
-import Api from '../services/Api';
 
 export default {
   name: 'Planner',
@@ -85,8 +84,12 @@ export default {
         startDate: this.dates[0],
         endDate: this.dates[1],
       };
-      const response = await Api.planner(plannerData);
-      console.log(response);
+      this.$router.push({
+        name: 'DisplayIternary',
+        params: { plannerData },
+      });
+      // const response = await Api.planner(plannerData);
+      // console.log(response);
     },
     setPlace(place) {
       this.currentPlace = place;
