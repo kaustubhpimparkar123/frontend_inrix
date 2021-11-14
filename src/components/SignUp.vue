@@ -82,6 +82,15 @@
                         label="Running"
                       >
                     </v-slider>
+                    <v-slider
+                        v-model="food"
+                        v-bind:value="food"
+                        :min="0"
+                        :max="10"
+                        height="50"
+                        label="Food"
+                        >
+                      </v-slider>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="primary" @click="signup()">Sign Up</v-btn>
@@ -110,14 +119,13 @@ export default {
       toggle: true,
       hiking: 9,
       running: 9,
+      food: 9,
       toolbarTitle: 'Sign Up',
       userData: {
         email: '',
         password: '',
         name: '',
         dob: '',
-        hiking: 0,
-        running: 0,
       },
     };
   },
@@ -150,11 +158,34 @@ export default {
       // console.log(this.toggle);
     },
     async signup() {
-      this.userData.hiking = this.hiking;
-      this.userData.running = this.running;
       this.userData.dob = this.parseDate(this.dateFormatted);
-      console.log(this.userData);
-      Api.pingpong('ping');
+      const objToSend = {
+        email: this.userData.email,
+        password: this.userData.password,
+        name: this.userData.name,
+        dob: this.userData.dob,
+        interest: [
+          {
+            name: 'hiking',
+            ratings: this.hiking,
+            id: 1,
+          },
+          {
+            name: 'running',
+            ratings: this.running,
+            id: 2,
+          },
+          {
+            name: 'food',
+            ratings: this.food,
+            id: 3,
+          },
+        ],
+      };
+      console.log(objToSend);
+      const response = await Api.signUp(objToSend);
+      console.log(response);
+      this.$router.push('/login');
     },
   },
 };

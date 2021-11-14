@@ -95,13 +95,8 @@ export default {
   created() {
     // this.fetchData();
   },
-  computed: {
-    dateRangeText() {
-      return this.dates.join(' ~ ');
-    },
-  },
   mounted() {
-    this.fetchData();
+    // this.fetchData();
   },
   methods: {
     async fetchData() {
