@@ -24,7 +24,7 @@
             :key="i">
             <v-col offset-md="1" xs = "12" sm="10" md="12">
              <v-card
-               color="#1F7087"
+               color="#448aff"
                dark
              >
                <div class="d-flex flex-no-wrap justify-space-between">

@@ -4,7 +4,7 @@
       <v-row>
          <v-col xs="10" sm="10" md="10">
          <GmapAutocomplete
-          style="width: 100%; "
+          style="width: 100%; border: 1px solid black;"
           @place_changed='setPlace'
          />
       </v-col>
@@ -145,4 +145,8 @@ export default {
    .date__color {
       color: #ffffff;
    }
+   #vuetify-google-autocomplete-id {
+    border: 2px solid red;
+  }
+
 </style>
