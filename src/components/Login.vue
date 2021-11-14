@@ -6,7 +6,7 @@
               <v-flex xs12 sm8 md4>
                  <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
-                       <v-toolbar-title>Login form</v-toolbar-title>
+                       <v-toolbar-title>user display</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                        <v-form>
@@ -55,7 +55,7 @@ export default {
     login() {
       console.log(this.user);
       Api.pingpong('ping');
-      this.$router.push('/SignUp');
+      this.$router.push('/Planner');
     },
   },
 };

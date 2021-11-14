@@ -5,6 +5,7 @@ import {
   sync,
 } from 'vuex-router-sync';
 
+import * as VueGoogleMaps from 'vue2-google-maps';
 import App from './App.vue';
 import router from './routes';
 import store from './store';
@@ -17,6 +18,12 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 Vue.use(VueMeta);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyC2mYZwQJqujtjlSZpy6M0KKG_PSCq2fcY',
+    libraries: 'places',
+  },
+});
 sync(store, router);
 
 new Vue({
