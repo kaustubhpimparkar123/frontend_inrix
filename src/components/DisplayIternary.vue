@@ -48,7 +48,48 @@
              </v-card>
             </v-col>
             </v-row>
+            <v-col offset-md="1" xs = "12" sm="10" md="12">
+            <v-card
+               color="#005792"
+               dark
+               elevation=10
+               >
+              <v-card-actions>
+                <v-btn
+                  color="white"
+                  text
+                >
+                  See Details
+                </v-btn>
+
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  icon
+                  @click="show = !show"
+                >
+                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+              </v-card-actions>
+
+              <v-expand-transition>
+                <div v-show="show">
+                  <v-divider></v-divider>
+                  <span style="margin-left: 12px;"> Route: {{route}} </span>
+                  <v-card-text>
+                    Average Speed: {{ averageSpeed }} mph
+                  </v-card-text>
+                  <v-card-text>
+                    Total Travel Time: {{ travelTime }} hours
+                  </v-card-text>
+                  <v-card-text>
+                    Total Travel Distance: {{ totalDistance }} miles
+                  </v-card-text>
+                </div>
+              </v-expand-transition>
+              </v-card>
            </v-col>
+          </v-col>
            </v-layout>
        </v-row>
     </v-app>
@@ -56,7 +97,7 @@
  </template>
 <script type="text/javascript">
 import axios from 'axios';
-// import Api from '../services/Api';
+import Api from '../services/Api';
 
 export default {
   name: 'DisplayIternary',
@@ -66,6 +107,7 @@ export default {
   data() {
     return {
       center: { lat: 45.508, lng: -73.587 },
+      route: 1,
       currentPlace: null,
       dates: [],
       currentHover: null,
@@ -73,22 +115,26 @@ export default {
       focusMonth: null,
       markers: [],
       places: [],
+      show: false,
+      averageSpeed: 0,
+      travelTime: '',
+      totalDistance: 0,
       items: [
-        {
-          address: '',
-        },
-        {
-          address: '',
-        },
-        {
-          address: '',
-        },
-        {
-          address: '',
-        },
-        {
-          address: '',
-        },
+        // {
+        //   address: '',
+        // },
+        // {
+        //   address: '',
+        // },
+        // {
+        //   address: '',
+        // },
+        // {
+        //   address: '',
+        // },
+        // {
+        //   address: '',
+        // },
       ],
     };
   },
@@ -99,12 +145,27 @@ export default {
     this.fetchData();
   },
   methods: {
+    convertMinsToHrsMins(minutes) {
+      let h = Math.floor(minutes / 60);
+      let m = minutes % 60;
+      h = h < 10 ? `0${h}` : h;
+      m = m < 10 ? `0${m}` : m;
+      return `${h}:${m}`;
+    },
     async fetchData() {
-      // const response = await Api.planner(this.plannerData);
-      const res = await axios.get('http://myjson.dit.upm.es/api/bins/9oj9');
-      const response = res.data;
+      console.log(this.plannerData);
+      const response = await Api.planner(this.plannerData);
+      console.log(response);
+      // const res = await axios.get('http://myjson.dit.upm.es/api/bins/9oj9');
+      // const response = res.data;
       // console.log(response.data);
       // console.log(response.result.trip.wayPoints[0].geometry.coordinates[0][0]);
+      this.markers.push({
+        position: {
+          lat: this.plannerData.latitude,
+          lng: this.plannerData.longitude,
+        },
+      });
       for (let i = 0; i < response.result.trip.wayPoints.length; i += 1) {
         this.markers.push({
           position: {
@@ -115,6 +176,9 @@ export default {
         });
       }
       await this.getPlacesNames();
+      this.averageSpeed = response.result.trip.routes[0].averageSpeed;
+      this.travelTime = this.convertMinsToHrsMins(response.result.trip.routes[0].travelTimeMinutes);
+      this.totalDistance = response.result.trip.routes[0].totalDistance;
       await this.sleep(100);
       this.center = {
         lat: this.markers[0].position.lat,
@@ -135,7 +199,9 @@ export default {
       console.log(promises);
       // const places = [];
       for (let i = 0; i < promises.length; i += 1) {
-        this.items[i].address = (promises[i].value.data.results[0].formatted_address);
+        this.items.push({
+          address: (promises[i].value.data.results[0].formatted_address),
+        });
         // console.log(promises[i].value.data.results[0].formatted_address);
       }
       // this.items = places;

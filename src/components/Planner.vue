@@ -86,7 +86,7 @@ export default {
   methods: {
     async getItinerary() {
       const plannerData = {
-        email: this.userID.email,
+        emailId: this.userID.email,
         latitude: this.center.lat,
         longitude: this.center.lng,
         startDate: this.dates[0],
