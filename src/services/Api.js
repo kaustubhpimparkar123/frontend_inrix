@@ -8,9 +8,11 @@ export default {
   pingpong: async (data) => {
     console.log(data);
     const reponse = await networkManager.getRequest(ApiNames.pingpong, data);
-    console.log(reponse);
     return reponse;
-    // const response = await networkManager.getRequest
-    // (ApiNames.getEditingPermissionOfASemester, data)
+  },
+  planner: async (data) => {
+    console.log(data);
+    const reponse = await networkManager.getRequest(ApiNames.planner, data);
+    return reponse;
   },
 };

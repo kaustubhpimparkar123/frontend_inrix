@@ -2,13 +2,18 @@
    <div id="app">
    <v-app id="inspire">
       <v-row>
+         <v-col xs="10" sm="10" md="10">
+         <GmapAutocomplete
+          style="width: 100%; "
+          @place_changed='setPlace'
+         />
+      </v-col>
+      </v-row>
+      <v-row>
          <v-col xs="12" sm="6" md="6">
-               <GmapAutocomplete
-                  @place_changed='setPlace'
-               />
                <GmapMap
                   :center='center'
-                  :zoom='12'
+                  :zoom='18'
                   style='width:100%;  height: 90vh;'
                >
                   <GmapMarker
@@ -34,7 +39,7 @@
 </div>
 </template>
 <script type="text/javascript">
-// import Api from '../services/Api';
+import Api from '../services/Api';
 
 export default {
   name: 'Planner',
@@ -73,12 +78,15 @@ export default {
     this.dates[1] = tomorrow;
   },
   methods: {
-    getItinerary() {
+    async getItinerary() {
       const plannerData = {
-        dates: this.dates,
-        place: this.center,
+        latitude: this.center.lat,
+        longitude: this.center.lng,
+        startDate: this.dates[0],
+        endDate: this.dates[1],
       };
-      console.log(plannerData);
+      const response = await Api.planner(plannerData);
+      console.log(response);
     },
     setPlace(place) {
       this.currentPlace = place;
@@ -107,24 +115,6 @@ export default {
       }
     },
   },
-//   methods: {
-//     login() {
-//       console.log(this.user);
-//       Api.pingpong('ping');
-//       this.$router.push('/SignUp');
-//     },
-//     setPlace(place) {
-//       this.currentPlace = place;
-//     },
-//     geolocate() {
-//       navigator.geolocation.getCurrentPosition((position) => {
-//         this.center = {
-//           lat: position.coords.latitude,
-//           lng: position.coords.longitude,
-//         };
-//       });
-//     },
-//   },
 };
 </script>
 <style>
