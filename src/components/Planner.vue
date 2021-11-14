@@ -10,7 +10,14 @@
                   :center='center'
                   :zoom='12'
                   style='width:100%;  height: 90vh;'
-               />
+               >
+                  <GmapMarker
+                  :key="index"
+                  v-for="(m, index) in markers"
+                  :position="m.position"
+                  @click="center=m.position"
+                  />
+               </GmapMap>
             </v-col>
             <v-col offset-md="" xs="12" sm="6" md="4">
                <v-date-picker
@@ -19,12 +26,15 @@
                   width="100%"
                ></v-date-picker>
             </v-col>
+            <v-col xs="12" sm="12" md="1">
+               <v-btn min-width=100 color="primary" @click="getItinerary()">Get Itinerary</v-btn>
+            </v-col>
       </v-row>
    </v-app>
 </div>
 </template>
 <script type="text/javascript">
-import Api from '../services/Api';
+// import Api from '../services/Api';
 
 export default {
   name: 'Planner',
@@ -32,10 +42,12 @@ export default {
     return {
       center: { lat: 45.508, lng: -73.587 },
       currentPlace: null,
-      dates: [''],
+      dates: [],
       currentHover: null,
       allNodes: [],
       focusMonth: null,
+      markers: [],
+      places: [],
     };
   },
   computed: {
@@ -44,6 +56,7 @@ export default {
     },
   },
   mounted() {
+    this.geolocate();
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
@@ -58,16 +71,20 @@ export default {
 
     this.dates[0] = today;
     this.dates[1] = tomorrow;
-    this.geolocate();
   },
   methods: {
-    login() {
-      console.log(this.user);
-      Api.pingpong('ping');
-      this.$router.push('/SignUp');
+    getItinerary() {
+      const plannerData = {
+        dates: this.dates,
+        place: this.center,
+      };
+      console.log(plannerData);
     },
     setPlace(place) {
       this.currentPlace = place;
+      this.center.lat = (this.currentPlace.geometry.location.lat());
+      this.center.lng = (this.currentPlace.geometry.location.lng());
+      this.addMarker();
     },
     geolocate() {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -76,6 +93,18 @@ export default {
           lng: position.coords.longitude,
         };
       });
+    },
+    addMarker() {
+      if (this.currentPlace) {
+        const marker = {
+          lat: this.currentPlace.geometry.location.lat(),
+          lng: this.currentPlace.geometry.location.lng(),
+        };
+        this.markers.push({ position: marker });
+        this.places.push(this.currentPlace);
+        this.center = marker;
+        this.currentPlace = null;
+      }
     },
   },
 //   methods: {

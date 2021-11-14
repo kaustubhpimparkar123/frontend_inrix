@@ -30,6 +30,7 @@
                     <v-card-actions>
                        <v-spacer></v-spacer>
                        <v-btn color="primary" to="/" @click="login()">Login</v-btn>
+                       <v-btn color="primary" to="/" @click="routeToSignUp()">Sign Up</v-btn>
                     </v-card-actions>
                  </v-card>
               </v-flex>
@@ -56,6 +57,9 @@ export default {
       console.log(this.user);
       Api.pingpong('ping');
       this.$router.push('/Planner');
+    },
+    routeToSignUp() {
+      this.$router.push('/SignUp');
     },
   },
 };
