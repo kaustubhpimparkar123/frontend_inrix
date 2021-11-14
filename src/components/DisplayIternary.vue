@@ -12,16 +12,17 @@
                    :key="index"
                    v-for="(m, index) in markers"
                    :position="m.position"
+                   :icon = "'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+ index +'|FF0000|000000'"
                    />
                 </GmapMap>
              </v-col>
              <v-layout row wrap>
              <v-col
-             xs = "12" sm="12" md="12"
+             xs = "12" sm="12" md="9"
             >
             <v-row   v-for="(item, i) in items"
             :key="i">
-            <v-col offset-md="1" xs = "12" sm="10" md="10">
+            <v-col offset-md="1" xs = "12" sm="10" md="12">
              <v-card
                color="#1F7087"
                dark
@@ -30,19 +31,19 @@
                  <div>
                    <v-card-title
                      class="text-h5"
-                     v-text="item.title"
+                     v-text="item.address"
                    ></v-card-title>
 
-                   <v-card-subtitle v-text="item.artist"></v-card-subtitle>
+                   <!-- <v-card-subtitle v-text="item.artist"></v-card-subtitle> -->
                  </div>
 
-                 <v-avatar
+                 <!-- <v-avatar
                    class="ma-3"
                    size="125"
                    tile
-                 >
-                   <v-img :src="item.src"></v-img>
-                 </v-avatar>
+                 > -->
+                   <!-- <v-img :src="item.src"></v-img> -->
+                 <!-- </v-avatar> -->
                </div>
              </v-card>
             </v-col>
@@ -54,7 +55,8 @@
  </div>
  </template>
 <script type="text/javascript">
-import Api from '../services/Api';
+import axios from 'axios';
+// import Api from '../services/Api';
 
 export default {
   name: 'DisplayIternary',
@@ -73,21 +75,19 @@ export default {
       places: [],
       items: [
         {
-          src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-          title: 'Supermodel',
-          artist: 'Foster the People',
+          address: '',
         },
         {
-          color: '#952175',
-          src: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-          title: 'Halcyon Days',
-          artist: 'Ellie Goulding',
+          address: '',
         },
         {
-          color: '#952175',
-          src: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-          title: 'Halcyon Days',
-          artist: 'Ellie Goulding',
+          address: '',
+        },
+        {
+          address: '',
+        },
+        {
+          address: '',
         },
       ],
     };
@@ -96,26 +96,49 @@ export default {
     // this.fetchData();
   },
   mounted() {
-    // this.fetchData();
+    this.fetchData();
   },
   methods: {
     async fetchData() {
-      const response = await Api.planner(this.plannerData);
+      // const response = await Api.planner(this.plannerData);
+      const res = await axios.get('http://myjson.dit.upm.es/api/bins/9oj9');
+      const response = res.data;
+      // console.log(response.data);
       // console.log(response.result.trip.wayPoints[0].geometry.coordinates[0][0]);
       for (let i = 0; i < response.result.trip.wayPoints.length; i += 1) {
         this.markers.push({
           position: {
             lat: response.result.trip.wayPoints[i].geometry.coordinates[0][1],
             lng: response.result.trip.wayPoints[i].geometry.coordinates[0][0],
+            indexKey: i + 1,
           },
         });
       }
+      await this.getPlacesNames();
       await this.sleep(100);
       this.center = {
         lat: this.markers[0].position.lat,
         lng: this.markers[0].position.lng,
       };
       console.log(this.center);
+    },
+    async getPlacesNames() {
+      const GApiURL = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=';
+      const key = 'AIzaSyC2mYZwQJqujtjlSZpy6M0KKG_PSCq2fcY';
+      let promises = [];
+      for (let i = 0; i < this.markers.length; i += 1) {
+        promises.push(axios.get(`${GApiURL}${this.markers[i].position.lat},${this.markers[i].position.lng}&key=${key}`));
+        // const response = res.data;
+        // console.log(response);
+      }
+      promises = await Promise.allSettled(promises);
+      console.log(promises);
+      // const places = [];
+      for (let i = 0; i < promises.length; i += 1) {
+        this.items[i].address = (promises[i].value.data.results[0].formatted_address);
+        // console.log(promises[i].value.data.results[0].formatted_address);
+      }
+      // this.items = places;
     },
     setPlace(place) {
       this.currentPlace = place;
