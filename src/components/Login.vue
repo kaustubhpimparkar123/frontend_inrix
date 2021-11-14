@@ -54,9 +54,15 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.user);
+      const userEmail = {
+        email: this.user.email,
+      };
+      console.log(userEmail);
       Api.pingpong('ping');
-      this.$router.push('/Planner');
+      this.$router.push({
+        name: 'Planner',
+        params: { userEmail },
+      });
     },
     routeToSignUp() {
       this.$router.push('/SignUp');

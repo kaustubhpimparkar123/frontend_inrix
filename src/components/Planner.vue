@@ -42,6 +42,9 @@
 
 export default {
   name: 'Planner',
+  props: [
+    'userEmail',
+  ],
   data() {
     return {
       center: { lat: 45.508, lng: -73.587 },
@@ -52,12 +55,16 @@ export default {
       focusMonth: null,
       markers: [],
       places: [],
+      userID: '',
     };
   },
   computed: {
     dateRangeText() {
       return this.dates.join(' ~ ');
     },
+  },
+  created() {
+    this.userID = this.userEmail;
   },
   mounted() {
     this.geolocate();
@@ -79,11 +86,13 @@ export default {
   methods: {
     async getItinerary() {
       const plannerData = {
+        email: this.userID.email,
         latitude: this.center.lat,
         longitude: this.center.lng,
         startDate: this.dates[0],
         endDate: this.dates[1],
       };
+      console.log(plannerData);
       this.$router.push({
         name: 'DisplayIternary',
         params: { plannerData },

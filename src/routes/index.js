@@ -25,6 +25,7 @@ export default new Router({
       path: '/Planner',
       name: 'Planner',
       component: Planner,
+      props: true,
     },
     {
       path: '/DisplayIternary',

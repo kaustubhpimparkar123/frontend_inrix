@@ -122,13 +122,6 @@ export default {
       };
       console.log(this.center);
     },
-    getItinerary() {
-      const plannerData = {
-        dates: this.dates,
-        place: this.center,
-      };
-      console.log(plannerData);
-    },
     setPlace(place) {
       this.currentPlace = place;
       this.center.lat = (this.currentPlace.geometry.location.lat());
