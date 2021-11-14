@@ -184,8 +184,13 @@ export default {
       };
       console.log(objToSend);
       const response = await Api.signUp(objToSend);
-      console.log(response);
-      this.$router.push('/login');
+      if (response) {
+        alert('Sign Up successful. Please login.');
+        this.$router.push('/login');
+      } else {
+        alert('Error');
+        this.$router.push('/signup');
+      }
     },
   },
 };

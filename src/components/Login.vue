@@ -53,16 +53,22 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       const userEmail = {
         email: this.user.email,
+        password: this.user.password,
       };
-      console.log(userEmail);
-      Api.pingpong('ping');
-      this.$router.push({
-        name: 'Planner',
-        params: { userEmail },
-      });
+      const response = await Api.login(userEmail);
+      console.log(response);
+      if (response) {
+        alert('Login Successful');
+        this.$router.push({
+          name: 'Planner',
+          params: { userEmail },
+        });
+      } else {
+        alert('Login Failed');
+      }
     },
     routeToSignUp() {
       this.$router.push('/SignUp');

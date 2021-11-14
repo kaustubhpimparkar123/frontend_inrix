@@ -10,6 +10,11 @@ export default {
     const reponse = await networkManager.getRequest(ApiNames.pingpong, data);
     return reponse;
   },
+  login: async (data) => {
+    console.log(data);
+    const reponse = await networkManager.postRequest(ApiNames.login, data);
+    return reponse;
+  },
   signUp: async (data) => {
     const reponse = await networkManager.postRequest(ApiNames.signUp, data);
     return reponse;

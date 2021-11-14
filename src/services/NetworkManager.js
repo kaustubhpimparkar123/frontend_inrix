@@ -12,6 +12,7 @@ export default {
 
   postRequest: async (apiName, data) => {
     const res = await axios.post(serverUrl + apiName, data);
+    console.log('post request');
     // window.console.log(res.data)
     return res.data;
   },
